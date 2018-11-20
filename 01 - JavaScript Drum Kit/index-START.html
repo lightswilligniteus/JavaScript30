@@ -58,6 +58,36 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  //event listener is triggered when a key is pressed (keydown) and checks
+  //if the key pressed is a key mentioned using querySelector and checks the
+  //keycode returned
+
+
+  function playSound(e) {
+      const audio = document.querySelector('audio[data-key="' + keyCode(e) + '"]');
+      const key = document.querySelector('div[data-key="' + keyCode(e) + '"]');
+      if(!audio) {
+        return;
+      }
+      audio.currentTime = 0;
+      audio.play();
+      key.classList.add('playing');
+    }
+
+  function keyCode(key) {
+    return key.keyCode;
+  }
+
+  //to handle the removal of .playing
+  const keys = document.querySelectorAll('.key');
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+  function removeTransition(e) {
+    if(e.propertyName !== "transform") return; //skip it if it's not a transform
+    this.classList.remove('playing');
+  }
+
+  window.addEventListener('keydown', playSound);
 
 </script>
 
